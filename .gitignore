@@ -1,0 +1,68 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual Environments
+venv/
+.venv/
+env/
+ENV/
+
+# Build
+build/
+dist/
+*.egg-info/
+
+# IDEs
+.vscode/
+.idea/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Environment Variables
+.env
+.env.*
+
+# Logs
+logs/
+*.log
+
+# OS Files
+.DS_Store
+Thumbs.db
+
+# Models
+models/*.pkl
+models/*.joblib
+models/*.pt
+models/*.pth
+models/*.bin
+
+# Data
+data/*.csv
+data/*.json
+data/*.jsonl
+!data/.gitkeep
+
+# Outputs
+outputs/
+reports/
+
+# Streamlit
+.streamlit/secrets.toml
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Cache
+.cache/
+.mypy_cache/
+
+# Temporary Files
+*.tmp
+*.bak
+*.swp
