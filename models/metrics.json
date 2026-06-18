@@ -1,0 +1,86 @@
+{
+  "logistic_regression": {
+    "accuracy": 1.0,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "confusion_matrix": [
+      [
+        186,
+        0
+      ],
+      [
+        0,
+        105
+      ]
+    ],
+    "roc_auc": 1.0,
+    "cv_f1_mean": 1.0,
+    "cv_f1_std": 0.0,
+    "cv_auc_mean": 1.0,
+    "cv_auc_std": 0.0
+  },
+  "random_forest": {
+    "accuracy": 1.0,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "confusion_matrix": [
+      [
+        186,
+        0
+      ],
+      [
+        0,
+        105
+      ]
+    ],
+    "roc_auc": 1.0,
+    "cv_f1_mean": 1.0,
+    "cv_f1_std": 0.0,
+    "cv_auc_mean": 1.0,
+    "cv_auc_std": 0.0
+  },
+  "xgboost": {
+    "accuracy": 1.0,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "confusion_matrix": [
+      [
+        186,
+        0
+      ],
+      [
+        0,
+        105
+      ]
+    ],
+    "roc_auc": 1.0,
+    "cv_f1_mean": 1.0,
+    "cv_f1_std": 0.0,
+    "cv_auc_mean": 1.0,
+    "cv_auc_std": 0.0
+  },
+  "ensemble": {
+    "accuracy": 1.0,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "confusion_matrix": [
+      [
+        186,
+        0
+      ],
+      [
+        0,
+        105
+      ]
+    ],
+    "roc_auc": 1.0,
+    "cv_f1_mean": 1.0,
+    "cv_f1_std": 0.0,
+    "cv_auc_mean": 1.0,
+    "cv_auc_std": 0.0
+  }
+}

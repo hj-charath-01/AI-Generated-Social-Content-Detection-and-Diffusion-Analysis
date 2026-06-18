@@ -1,0 +1,14 @@
+2026-06-18 06:39:27 | INFO     | src.data.loader:load_csv:31 - Loading CSV: data/synthetic_posts.csv
+2026-06-18 06:39:27 | INFO     | src.data.loader:load_csv:33 -   Loaded 2,000 rows
+2026-06-18 06:39:27 | INFO     | src.data.preprocessor:preprocess:170 - Preprocessing 2,000 posts…
+2026-06-18 06:39:27 | INFO     | src.data.preprocessor:remove_duplicates:112 - Deduplication: 2,000 → 2,000 rows
+2026-06-18 06:39:27 | INFO     | src.data.preprocessor:filter_by_length:135 - Length filter [10, 2048]: 2,000 → 2,000 rows
+2026-06-18 06:39:32 | INFO     | src.data.preprocessor:filter_by_language:91 - Language filter (en): 2,000 → 1,932 rows
+2026-06-18 06:39:32 | INFO     | src.data.preprocessor:preprocess:189 - Null drop: 1,932 → 1,932 rows
+2026-06-18 06:39:32 | INFO     | src.data.preprocessor:preprocess:192 - Preprocessing complete: 1,932 posts remaining
+2026-06-18 06:39:32 | INFO     | src.diffusion.analysis:run_diffusion_analysis:114 - Starting diffusion analysis…
+2026-06-18 06:39:32 | INFO     | src.diffusion.graph_builder:build_cascade_graphs:139 - Built 1528 cascades from 1932 posts
+2026-06-18 06:39:32 | INFO     | src.diffusion.graph_builder:filter_cascades_by_size:158 - Cascades after size filter (≥2): 297
+2026-06-18 06:39:32 | INFO     | src.diffusion.metrics:compute_all_cascade_metrics:173 - Computed metrics for 297 cascades
+2026-06-18 06:39:32 | INFO     | src.diffusion.graph_builder:build_interaction_graph:70 - Interaction graph: 299 nodes, 404 edges
+2026-06-18 06:39:32 | INFO     | src.diffusion.metrics:compute_centrality_metrics:192 - Computing centrality metrics…

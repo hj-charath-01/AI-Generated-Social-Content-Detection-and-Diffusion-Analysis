@@ -1,0 +1,41 @@
+2026-06-18 06:34:36 | INFO     | src.data.loader:load_csv:31 - Loading CSV: data/synthetic_posts.csv
+2026-06-18 06:34:36 | INFO     | src.data.loader:load_csv:33 -   Loaded 2,000 rows
+2026-06-18 06:34:36 | INFO     | src.data.preprocessor:preprocess:170 - Preprocessing 2,000 posts…
+2026-06-18 06:34:36 | INFO     | src.data.preprocessor:remove_duplicates:112 - Deduplication: 2,000 → 2,000 rows
+2026-06-18 06:34:36 | INFO     | src.data.preprocessor:filter_by_length:135 - Length filter [10, 2048]: 2,000 → 2,000 rows
+2026-06-18 06:34:42 | INFO     | src.data.preprocessor:filter_by_language:91 - Language filter (en): 2,000 → 1,940 rows
+2026-06-18 06:34:42 | INFO     | src.data.preprocessor:preprocess:189 - Null drop: 1,940 → 1,940 rows
+2026-06-18 06:34:42 | INFO     | src.data.preprocessor:preprocess:192 - Preprocessing complete: 1,940 posts remaining
+2026-06-18 06:34:42 | INFO     | src.features.text_features:extract_statistical_features:129 - Extracting statistical text features from 'clean_text'…
+2026-06-18 06:34:42 | INFO     | src.features.text_features:extract_statistical_features:132 -   → 17 statistical features
+2026-06-18 06:34:42 | INFO     | src.features.metadata_features:extract_metadata_features:186 - Extracting metadata features…
+2026-06-18 06:34:43 | INFO     | src.features.metadata_features:extract_metadata_features:193 -   → 20 metadata features
+2026-06-18 06:34:43 | INFO     | src.features.feature_pipeline:fit_transform:74 - FeaturePipeline fit_transform: (1940, 37)
+2026-06-18 06:34:43 | INFO     | src.features.feature_pipeline:save:113 - FeaturePipeline saved to /home/charath/Desktop/WM & SNA/models/feature_pipeline.joblib
+2026-06-18 06:34:43 | INFO     | src.detection.trainer:split:108 - Split → train=1358, val=291, test=291
+2026-06-18 06:34:43 | INFO     | src.detection.models:make_logistic_regression:47 - Creating LogisticRegression: {'max_iter': 1000, 'C': 1.0, 'class_weight': 'balanced', 'solver': 'lbfgs', 'n_jobs': -1}
+2026-06-18 06:34:43 | INFO     | src.detection.models:make_random_forest:72 - Creating RandomForest: {'n_estimators': 200, 'max_depth': 15, 'min_samples_split': 5, 'class_weight': 'balanced', 'random_state': 42, 'n_jobs': -1}
+2026-06-18 06:34:43 | INFO     | src.detection.models:make_xgboost:101 - Creating XGBClassifier: {'n_estimators': 200, 'max_depth': 6, 'learning_rate': 0.1, 'use_label_encoder': False, 'eval_metric': 'logloss', 'random_state': 42, 'n_jobs': -1}
+2026-06-18 06:34:43 | INFO     | src.detection.models:make_logistic_regression:47 - Creating LogisticRegression: {'max_iter': 1000, 'C': 1.0, 'class_weight': 'balanced', 'solver': 'lbfgs', 'n_jobs': -1}
+2026-06-18 06:34:43 | INFO     | src.detection.models:make_random_forest:72 - Creating RandomForest: {'n_estimators': 200, 'max_depth': 15, 'min_samples_split': 5, 'class_weight': 'balanced', 'random_state': 42, 'n_jobs': -1}
+2026-06-18 06:34:43 | INFO     | src.detection.models:make_xgboost:101 - Creating XGBClassifier: {'n_estimators': 200, 'max_depth': 6, 'learning_rate': 0.1, 'use_label_encoder': False, 'eval_metric': 'logloss', 'random_state': 42, 'n_jobs': -1}
+2026-06-18 06:34:43 | INFO     | src.detection.models:make_ensemble:169 - Created soft-voting ensemble: LR + RF + XGB
+2026-06-18 06:34:43 | INFO     | src.detection.trainer:train_model:193 - Training logistic_regression…
+2026-06-18 06:34:43 | INFO     | src.detection.trainer:train_model:203 - logistic_regression → acc=1.0000 f1=1.0000 auc=1.0
+2026-06-18 06:34:43 | INFO     | src.detection.trainer:cross_validate:155 - CV (logistic_regression): F1=1.0000 ± 0.0000
+2026-06-18 06:34:43 | INFO     | src.detection.trainer:train_model:193 - Training random_forest…
+2026-06-18 06:34:45 | INFO     | src.detection.trainer:train_model:203 - random_forest → acc=1.0000 f1=1.0000 auc=1.0
+2026-06-18 06:34:51 | INFO     | src.detection.trainer:cross_validate:155 - CV (random_forest): F1=1.0000 ± 0.0000
+2026-06-18 06:34:51 | INFO     | src.detection.trainer:train_model:193 - Training xgboost…
+2026-06-18 06:34:52 | INFO     | src.detection.trainer:train_model:203 - xgboost → acc=1.0000 f1=1.0000 auc=1.0
+2026-06-18 06:34:52 | INFO     | src.detection.trainer:cross_validate:155 - CV (xgboost): F1=1.0000 ± 0.0000
+2026-06-18 06:34:52 | INFO     | src.detection.trainer:train_model:193 - Training ensemble…
+2026-06-18 06:34:56 | INFO     | src.detection.trainer:train_model:203 - ensemble → acc=1.0000 f1=1.0000 auc=1.0
+2026-06-18 06:35:06 | INFO     | src.detection.trainer:cross_validate:155 - CV (ensemble): F1=1.0000 ± 0.0000
+2026-06-18 06:35:06 | INFO     | src.detection.trainer:save_artifacts:287 - Saved logistic_regression → /home/charath/Desktop/WM & SNA/models/logistic_regression.joblib
+2026-06-18 06:35:06 | INFO     | src.detection.trainer:save_artifacts:287 - Saved random_forest → /home/charath/Desktop/WM & SNA/models/random_forest.joblib
+2026-06-18 06:35:06 | INFO     | src.detection.trainer:save_artifacts:287 - Saved xgboost → /home/charath/Desktop/WM & SNA/models/xgboost.joblib
+2026-06-18 06:35:06 | INFO     | src.detection.trainer:save_artifacts:287 - Saved ensemble → /home/charath/Desktop/WM & SNA/models/ensemble.joblib
+2026-06-18 06:35:06 | INFO     | src.detection.trainer:save_artifacts:298 - Saved metrics → /home/charath/Desktop/WM & SNA/models/metrics.json
+2026-06-18 06:35:12 | INFO     | src.detection.explainability:_build_explainer:76 - SHAP explainer built: KernelExplainer
+2026-06-18 06:38:19 | ERROR    | src.detection.explainability:explain:151 - SHAP explanation failed: only integer scalar arrays can be converted to a scalar index

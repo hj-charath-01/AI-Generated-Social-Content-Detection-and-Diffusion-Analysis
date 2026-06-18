@@ -1,0 +1,15 @@
+2026-06-18 06:38:59 | INFO     | src.features.feature_pipeline:load:120 - FeaturePipeline loaded from /home/charath/Desktop/WM & SNA/models/feature_pipeline.joblib
+2026-06-18 06:39:00 | INFO     | src.detection.trainer:load_model:318 - Loaded ensemble from /home/charath/Desktop/WM & SNA/models/ensemble.joblib
+2026-06-18 06:39:00 | INFO     | src.data.loader:load_csv:31 - Loading CSV: data/synthetic_posts.csv
+2026-06-18 06:39:00 | INFO     | src.data.loader:load_csv:33 -   Loaded 2,000 rows
+2026-06-18 06:39:00 | INFO     | src.data.preprocessor:preprocess:170 - Preprocessing 2,000 posts…
+2026-06-18 06:39:00 | INFO     | src.data.preprocessor:remove_duplicates:112 - Deduplication: 2,000 → 2,000 rows
+2026-06-18 06:39:00 | INFO     | src.data.preprocessor:filter_by_length:135 - Length filter [10, 2048]: 2,000 → 2,000 rows
+2026-06-18 06:39:04 | INFO     | src.data.preprocessor:filter_by_language:91 - Language filter (en): 2,000 → 1,948 rows
+2026-06-18 06:39:04 | INFO     | src.data.preprocessor:preprocess:189 - Null drop: 1,948 → 1,948 rows
+2026-06-18 06:39:04 | INFO     | src.data.preprocessor:preprocess:192 - Preprocessing complete: 1,948 posts remaining
+2026-06-18 06:39:04 | INFO     | src.features.text_features:extract_statistical_features:129 - Extracting statistical text features from 'clean_text'…
+2026-06-18 06:39:04 | INFO     | src.features.text_features:extract_statistical_features:132 -   → 17 statistical features
+2026-06-18 06:39:04 | INFO     | src.features.metadata_features:extract_metadata_features:186 - Extracting metadata features…
+2026-06-18 06:39:05 | INFO     | src.features.metadata_features:extract_metadata_features:193 -   → 20 metadata features
+2026-06-18 06:39:05 | INFO     | src.detection.inference:predict_file:174 - Predictions saved to outputs/predictions.csv

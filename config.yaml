@@ -1,0 +1,70 @@
+project:
+  name: "AI-Generated Social Content Detection and Diffusion Analysis"
+  version: "1.0.0"
+  seed: 42
+
+paths:
+  data_dir: "data"
+  models_dir: "models"
+  outputs_dir: "outputs"
+  logs_dir: "outputs/logs"
+
+data:
+  test_size: 0.15
+  val_size: 0.15
+  min_text_length: 10
+  max_text_length: 2048
+  language_filter: "en"
+  supported_formats:
+    - csv
+    - json
+    - jsonl
+
+features:
+  text:
+    max_tokens: 512
+    transformer_model: "distilbert-base-uncased"
+    embedding_batch_size: 32
+  metadata:
+    posting_window_hours: 24
+    burst_threshold: 5
+
+training:
+  epochs: 3
+  batch_size: 16
+  learning_rate: 2.0e-5
+  warmup_steps: 100
+  weight_decay: 0.01
+  class_weight: "balanced"
+  cv_folds: 5
+  early_stopping_patience: 3
+
+models:
+  logistic_regression:
+    max_iter: 1000
+    C: 1.0
+  random_forest:
+    n_estimators: 200
+    max_depth: 15
+    min_samples_split: 5
+  xgboost:
+    n_estimators: 200
+    max_depth: 6
+    learning_rate: 0.1
+  transformer:
+    model_name: "distilbert-base-uncased"
+    max_length: 256
+
+diffusion:
+  min_cascade_size: 2
+  community_resolution: 1.0
+  time_unit: "hours"
+
+api:
+  host: "0.0.0.0"
+  port: 8000
+  workers: 1
+
+dashboard:
+  port: 8501
+  theme: "dark"
