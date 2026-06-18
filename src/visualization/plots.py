@@ -214,12 +214,24 @@ def plot_cascade_metrics_boxplot(
     human_data = cascade_df.loc[cascade_df["label"] == "human", metric].dropna()
 
     fig, ax = plt.subplots(figsize=(5, 4))
-    bp = ax.boxplot(
-        [human_data, ai_data],
-        labels=["Human", "AI Generated"],
-        patch_artist=True,
-        notch=True,
-    )
+
+    # FIX: Matplotlib 3.9 renamed the boxplot 'labels' kwarg to 'label'.
+    # Try the new name first; fall back to the old name for older installs.
+    _tick_labels = ["Human", "AI Generated"]
+    try:
+        bp = ax.boxplot(
+            [human_data, ai_data],
+            label=_tick_labels,
+            patch_artist=True,
+            notch=True,
+        )
+    except TypeError:
+        bp = ax.boxplot(
+            [human_data, ai_data],
+            labels=_tick_labels,
+            patch_artist=True,
+            notch=True,
+        )
     bp["boxes"][0].set_facecolor(_PALETTE["human"])
     bp["boxes"][1].set_facecolor(_PALETTE["ai_generated"])
 

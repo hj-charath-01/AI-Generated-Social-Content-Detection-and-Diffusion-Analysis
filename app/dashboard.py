@@ -36,7 +36,7 @@ ensure_dirs()
 
 st.set_page_config(
     page_title="AI Content Detection",
-    page_icon="🤖",
+    page_icon="",
     layout="wide",
 )
 
