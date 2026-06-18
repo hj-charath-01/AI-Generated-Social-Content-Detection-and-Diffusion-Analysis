@@ -8,6 +8,7 @@ from __future__ import annotations
 
 from typing import Any
 
+import networkx as nx  # FIX: was missing at module level; nx_density() used nx bare
 import numpy as np
 import pandas as pd
 from scipy import stats
@@ -158,7 +159,7 @@ def run_diffusion_analysis(df: pd.DataFrame) -> dict[str, Any]:
         "n_nodes": interaction_graph.number_of_nodes(),
         "n_edges": interaction_graph.number_of_edges(),
         "n_communities": len(set(community_partition.values())),
-        "density": float(nx_density(interaction_graph)),
+        "density": nx_density(interaction_graph),  # nx now available at module level
         "n_cascades": len(cascades),
         "n_cascades_ai": int(ai_mask.sum()),
         "n_cascades_human": int(human_mask.sum()),
@@ -176,10 +177,9 @@ def run_diffusion_analysis(df: pd.DataFrame) -> dict[str, Any]:
 
 
 def nx_density(G) -> float:
-    """Safe wrapper for nx.density."""
+    """Safe wrapper for nx.density. nx is imported at module level."""
     try:
-        import networkx as nx
-        return nx.density(G)
+        return float(nx.density(G))
     except Exception:
         return 0.0
 

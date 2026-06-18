@@ -86,20 +86,20 @@ def section_header(title: str, subtitle: str = "") -> None:
 # Sidebar
 # ---------------------------------------------------------------------------
 
-st.sidebar.title("🤖 AI Content Detection")
+st.sidebar.title("AI Content Detection")
 st.sidebar.markdown("---")
 tab_name = st.sidebar.radio(
     "Navigation",
     [
-        "📊 Dataset Overview",
-        "🏋️ Training Results",
-        "🔲 Confusion Matrix",
-        "📈 ROC Curve",
-        "🔍 Feature Importance",
-        "💬 Single Post Prediction",
-        "📂 Batch Prediction",
-        "🌐 Diffusion Analytics",
-        "⚖️ AI vs Human Cascade",
+        "Dataset Overview",
+        "Training Results",
+        "Confusion Matrix",
+        "ROC Curve",
+        "Feature Importance",
+        "Single Post Prediction",
+        "Batch Prediction",
+        "Diffusion Analytics",
+        "AI vs Human Cascade",
     ],
 )
 
@@ -107,7 +107,7 @@ tab_name = st.sidebar.radio(
 # Tab: Dataset Overview
 # ---------------------------------------------------------------------------
 
-if tab_name == "📊 Dataset Overview":
+if tab_name == "Dataset Overview":
     section_header("Dataset Overview")
 
     uploaded = st.file_uploader("Upload dataset (CSV)", type=["csv"], key="ds_upload")
@@ -127,27 +127,28 @@ if tab_name == "📊 Dataset Overview":
             st.bar_chart(counts)
 
         st.subheader("Sample Records")
-        st.dataframe(df.head(20), use_container_width=True)
+        # FIX: use_container_width deprecated → use width='stretch'
+        st.dataframe(df.head(20), width="stretch")
 
         st.subheader("Column Summary")
-        st.dataframe(df.describe(include="all").T, use_container_width=True)
+        st.dataframe(df.describe(include="all").T, width="stretch")
     else:
         st.info("Upload a CSV file to explore the dataset.")
 
-        if st.button("🎲 Generate Synthetic Demo Dataset"):
+        if st.button("Generate Synthetic Demo Dataset"):
             with st.spinner("Generating…"):
                 from src.data.synthetic_generator import generate_dataset
                 df = generate_dataset(n_posts=500)
                 st.session_state["demo_df"] = df
                 csv_bytes = df.to_csv(index=False).encode()
-                st.download_button("⬇️ Download Synthetic Dataset", csv_bytes, "synthetic_posts.csv", "text/csv")
+                st.download_button("⬇Download Synthetic Dataset", csv_bytes, "synthetic_posts.csv", "text/csv")
                 st.dataframe(df.head(10))
 
 # ---------------------------------------------------------------------------
 # Tab: Training Results
 # ---------------------------------------------------------------------------
 
-elif tab_name == "🏋️ Training Results":
+elif tab_name == "Training Results":
     section_header("Model Training Results", "Comparison across all trained models")
 
     metrics = load_metrics()
@@ -167,7 +168,8 @@ elif tab_name == "🏋️ Training Results":
             rows.append(row)
 
         df_metrics = pd.DataFrame(rows).set_index("model")
-        st.dataframe(df_metrics.style.highlight_max(axis=0, color="#d4f1d4"), use_container_width=True)
+        # FIX: use_container_width deprecated → width='stretch'
+        st.dataframe(df_metrics.style.highlight_max(axis=0, color="#d4f1d4"), width="stretch")
 
         # Bar chart
         from src.visualization.plots import plot_metric_comparison
@@ -178,7 +180,7 @@ elif tab_name == "🏋️ Training Results":
 # Tab: Confusion Matrix
 # ---------------------------------------------------------------------------
 
-elif tab_name == "🔲 Confusion Matrix":
+elif tab_name == "Confusion Matrix":
     section_header("Confusion Matrix")
 
     metrics = load_metrics()
@@ -207,7 +209,7 @@ elif tab_name == "🔲 Confusion Matrix":
 # Tab: ROC Curve
 # ---------------------------------------------------------------------------
 
-elif tab_name == "📈 ROC Curve":
+elif tab_name == "ROC Curve":
     section_header("ROC Curves", "Receiver Operating Characteristic for each model")
 
     metrics = load_metrics()
@@ -221,7 +223,8 @@ elif tab_name == "📈 ROC Curve":
             st.pyplot(fig)
 
             auc_rows = [{"model": k, "auc": v[2]} for k, v in roc_data.items()]
-            st.dataframe(pd.DataFrame(auc_rows).set_index("model"), use_container_width=True)
+            # FIX: use_container_width deprecated → width='stretch'
+            st.dataframe(pd.DataFrame(auc_rows).set_index("model"), width="stretch")
         else:
             st.info("No ROC data available.")
 
@@ -229,7 +232,7 @@ elif tab_name == "📈 ROC Curve":
 # Tab: Feature Importance
 # ---------------------------------------------------------------------------
 
-elif tab_name == "🔍 Feature Importance":
+elif tab_name == "Feature Importance":
     section_header("Feature Importance", "SHAP-based global feature attribution")
 
     imp_path = get_path("outputs_dir") / "feature_importance.csv"
@@ -239,7 +242,8 @@ elif tab_name == "🔍 Feature Importance":
         from src.visualization.plots import plot_feature_importance
         fig = plot_feature_importance(imp_df, top_k=top_k)
         st.pyplot(fig)
-        st.dataframe(imp_df.head(top_k), use_container_width=True)
+        # FIX: use_container_width deprecated → width='stretch'
+        st.dataframe(imp_df.head(top_k), width="stretch")
     else:
         st.info("Feature importance not computed yet. Run training with SHAP enabled.")
 
@@ -247,7 +251,7 @@ elif tab_name == "🔍 Feature Importance":
 # Tab: Single Post Prediction
 # ---------------------------------------------------------------------------
 
-elif tab_name == "💬 Single Post Prediction":
+elif tab_name == "Single Post Prediction":
     section_header("Single Post Prediction")
 
     text_input = st.text_area("Enter post text:", height=150, placeholder="Type or paste a social media post…")
@@ -255,7 +259,7 @@ elif tab_name == "💬 Single Post Prediction":
     following = st.number_input("Following", min_value=0, value=300)
     engagement = st.number_input("Engagement count", min_value=0, value=10)
 
-    if st.button("🔍 Predict"):
+    if st.button("Predict"):
         if not text_input.strip():
             st.warning("Please enter some text.")
         else:
@@ -290,7 +294,7 @@ elif tab_name == "💬 Single Post Prediction":
 # Tab: Batch Prediction
 # ---------------------------------------------------------------------------
 
-elif tab_name == "📂 Batch Prediction":
+elif tab_name == "Batch Prediction":
     section_header("Batch Prediction Upload")
 
     uploaded = st.file_uploader("Upload CSV for batch scoring", type=["csv"], key="batch_upload")
@@ -299,7 +303,7 @@ elif tab_name == "📂 Batch Prediction":
         df = pd.read_csv(uploaded)
         st.info(f"Loaded {len(df):,} rows.")
 
-        if st.button("🚀 Run Batch Prediction"):
+        if st.button("Run Batch Prediction"):
             try:
                 predictor = load_predictor()
                 with st.spinner("Scoring…"):
@@ -307,10 +311,11 @@ elif tab_name == "📂 Batch Prediction":
 
                 st.success(f"Predicted {len(results):,} posts.")
                 output_cols = [c for c in ["post_id", "text", "predicted_label", "confidence", "prob_human", "prob_ai_generated"] if c in results.columns]
-                st.dataframe(results[output_cols].head(100), use_container_width=True)
+                # FIX: use_container_width deprecated → width='stretch'
+                st.dataframe(results[output_cols].head(100), width="stretch")
 
                 csv_bytes = results.to_csv(index=False).encode()
-                st.download_button("⬇️ Download Predictions", csv_bytes, "predictions.csv", "text/csv")
+                st.download_button("⬇Download Predictions", csv_bytes, "predictions.csv", "text/csv")
             except Exception as e:
                 st.error(f"Prediction failed: {e}")
 
@@ -318,7 +323,7 @@ elif tab_name == "📂 Batch Prediction":
 # Tab: Diffusion Analytics
 # ---------------------------------------------------------------------------
 
-elif tab_name == "🌐 Diffusion Analytics":
+elif tab_name == "Diffusion Analytics":
     section_header("Graph Diffusion Analytics")
 
     uploaded = st.file_uploader("Upload dataset CSV", type=["csv"], key="diff_upload")
@@ -326,7 +331,7 @@ elif tab_name == "🌐 Diffusion Analytics":
     if uploaded:
         df = pd.read_csv(uploaded)
 
-        if st.button("🔗 Run Diffusion Analysis"):
+        if st.button("Run Diffusion Analysis"):
             with st.spinner("Building graphs and computing metrics…"):
                 from src.data.schema import validate_dataframe
                 from src.data.preprocessor import preprocess
@@ -376,7 +381,7 @@ elif tab_name == "⚖️ AI vs Human Cascade":
     if uploaded:
         df = pd.read_csv(uploaded)
 
-        if st.button("📊 Compare Cascades"):
+        if st.button("Compare Cascades"):
             with st.spinner("Analyzing cascades…"):
                 from src.data.schema import validate_dataframe
                 from src.data.preprocessor import preprocess
@@ -392,7 +397,8 @@ elif tab_name == "⚖️ AI vs Human Cascade":
                     cascade_df = compute_all_cascade_metrics(cascades)
 
                     st.success(f"Analyzed {len(cascade_df)} cascades.")
-                    st.dataframe(cascade_df.groupby("label").mean(numeric_only=True).round(3), use_container_width=True)
+                    # FIX: use_container_width deprecated → width='stretch'
+                    st.dataframe(cascade_df.groupby("label").mean(numeric_only=True).round(3), width="stretch")
 
                     metric = st.selectbox("Metric to compare", ["depth", "breadth", "structural_virality", "size"])
                     fig = plot_cascade_metrics_boxplot(cascade_df, metric=metric)

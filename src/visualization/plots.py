@@ -23,12 +23,28 @@ logger = get_logger(__name__)
 _PALETTE = {"human": "#4C72B0", "ai_generated": "#DD8452", "unknown": "#8C8C8C"}
 
 
+def _get_cmap(name: str, n: int):
+    """
+    Retrieve a colormap in a way that works across Matplotlib versions.
+
+    matplotlib.cm.get_cmap() was deprecated in 3.7 and removed in 3.9.
+    Use matplotlib.colormaps[name] (available from 3.5+) with a fallback
+    for older installs.
+    """
+    try:
+        # Preferred API: Matplotlib >= 3.5
+        return matplotlib.colormaps[name].resampled(n)
+    except AttributeError:
+        # Fallback for Matplotlib < 3.5
+        return cm.get_cmap(name, n)  # type: ignore[attr-defined]
+
+
 # ---------------------------------------------------------------------------
 # Detection evaluation
 # ---------------------------------------------------------------------------
 
 def plot_confusion_matrix(
-    cm: list[list[int]],
+    cm_data: list[list[int]],
     labels: list[str] = ("human", "ai_generated"),
     title: str = "Confusion Matrix",
     model_name: str = "",
@@ -37,7 +53,7 @@ def plot_confusion_matrix(
     Render a labeled confusion matrix heatmap.
 
     Args:
-        cm: 2×2 confusion matrix as list of lists.
+        cm_data: 2×2 confusion matrix as list of lists.
         labels: Axis label names.
         title: Plot title.
         model_name: Optional model name appended to title.
@@ -47,7 +63,7 @@ def plot_confusion_matrix(
     """
     import seaborn as sns
 
-    cm_arr = np.array(cm)
+    cm_arr = np.array(cm_data)
     fig, ax = plt.subplots(figsize=(5, 4))
     sns.heatmap(
         cm_arr,
@@ -119,7 +135,7 @@ def plot_feature_importance(
     df = importance_df.head(top_k).copy()
 
     fig, ax = plt.subplots(figsize=(7, max(4, top_k * 0.35)))
-    bars = ax.barh(
+    ax.barh(
         y=df["feature"][::-1],
         width=df[value_col][::-1],
         color="#4C72B0",
@@ -268,7 +284,9 @@ def plot_network_graph(
 
     if community_partition:
         unique_comms = list(set(community_partition.values()))
-        cmap = cm.get_cmap("tab20", len(unique_comms))
+        # FIX: cm.get_cmap() deprecated in Matplotlib 3.7+, removed in 3.9.
+        # Use the _get_cmap() helper which prefers matplotlib.colormaps[].
+        cmap = _get_cmap("tab20", len(unique_comms))
         color_map = {c: cmap(i) for i, c in enumerate(unique_comms)}
         node_colors = [
             color_map.get(community_partition.get(n, 0), "#999")

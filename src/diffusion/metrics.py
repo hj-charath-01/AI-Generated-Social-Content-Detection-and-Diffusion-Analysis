@@ -226,24 +226,43 @@ def compute_centrality_metrics(G: nx.DiGraph) -> pd.DataFrame:
 
 def detect_communities(G: nx.DiGraph) -> dict[str, int]:
     """
-    Detect communities in the interaction graph using Louvain method.
+    Detect communities in the interaction graph.
+
+    Tries (in order):
+      1. python-louvain  (pip install python-louvain)
+         — exposes best_partition via community.community_louvain, NOT the
+           top-level `community` namespace, so we import the sub-module directly.
+      2. NetworkX greedy_modularity_communities as a fallback.
 
     Args:
         G: Directed user interaction graph.
 
     Returns:
-        Dict mapping node → community ID.
+        Dict mapping node → community ID (int).
     """
     undirected = G.to_undirected()
+
+    # ----------------------------------------------------------------
+    # Strategy 1: python-louvain
+    # The package installs as `community`; best_partition lives in the
+    # `community.community_louvain` sub-module, NOT on the top-level
+    # `community` object.  Import the sub-module explicitly to avoid
+    # the AttributeError: module 'community' has no attribute 'best_partition'.
+    # ----------------------------------------------------------------
     try:
-        import community as community_louvain
+        from community import community_louvain  # python-louvain sub-module
         partition = community_louvain.best_partition(undirected)
         n_communities = len(set(partition.values()))
         logger.info(f"Detected {n_communities} communities (Louvain)")
         return partition
     except ImportError:
         pass
+    except Exception as e:
+        logger.warning(f"Louvain community detection failed: {e}")
 
+    # ----------------------------------------------------------------
+    # Strategy 2: NetworkX built-in greedy modularity
+    # ----------------------------------------------------------------
     try:
         from networkx.algorithms.community import greedy_modularity_communities
         communities = greedy_modularity_communities(undirected)
@@ -254,5 +273,5 @@ def detect_communities(G: nx.DiGraph) -> dict[str, int]:
         logger.info(f"Detected {len(communities)} communities (greedy modularity)")
         return partition
     except Exception as e:
-        logger.warning(f"Community detection failed: {e}")
+        logger.warning(f"Community detection failed entirely: {e}")
         return {n: 0 for n in G.nodes()}

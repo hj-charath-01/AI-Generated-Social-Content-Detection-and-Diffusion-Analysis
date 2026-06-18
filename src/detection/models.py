@@ -79,6 +79,10 @@ def make_xgboost(**kwargs: Any):
 
     Falls back to a RandomForest if xgboost is not installed.
 
+    Note: use_label_encoder was removed in XGBoost >= 1.6 and must not
+    be passed; eval_metric is set to 'logloss' to suppress the default
+    warning about missing eval_metric.
+
     Args:
         **kwargs: Additional arguments forwarded to XGBClassifier.
 
@@ -92,7 +96,7 @@ def make_xgboost(**kwargs: Any):
             "n_estimators": cfg["n_estimators"],
             "max_depth": cfg["max_depth"],
             "learning_rate": cfg["learning_rate"],
-            "use_label_encoder": False,
+            # FIX: use_label_encoder was removed in XGBoost >= 1.6 — drop it entirely.
             "eval_metric": "logloss",
             "random_state": get_config()["project"]["seed"],
             "n_jobs": -1,
