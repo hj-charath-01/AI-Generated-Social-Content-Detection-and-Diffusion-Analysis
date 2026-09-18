@@ -59,7 +59,7 @@ project/
     │   └── synthetic_generator.py   # Demo dataset generator
     ├── features/
     │   ├── text_features.py          # Statistical + transformer embedding features
-    │   ├── metadata_features.py      # Account, temporal, network behavior features
+    │   ├── metadata_features.py      # Account, temporal, and network behavior features
     │   └── feature_pipeline.py       # Unified pipeline with StandardScaler
     ├── detection/
     │   ├── models.py                 # LR, RF, XGB, LightGBM, ensemble factories
@@ -229,6 +229,6 @@ Each record should contain:
 
 ## Dependencies
 
-- Python 3.10+, PyTorch, Hugging Face Transformers, scikit-learn, XGBoost
+- Python 3.10+, PyTorch, Hugging Face Transformers, scikit-learn,  XGBoost
 - NetworkX, python-louvain, SHAP
 - FastAPI + Uvicorn, Streamlit, Plotly, Matplotlib
